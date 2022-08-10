@@ -3,6 +3,7 @@ C Plus Plus Reddit API Wrapper
 
 (Yes this is a blatant copy of the [praw project](https://github.com/praw-dev/praw)).
 But, we have something that the praw folks dont: support from Gordon Ramsay himself!
+
 ![a](https://res.cloudinary.com/teepublic/image/private/s--hvlnclk3--/t_Preview/b_rgb:484849,c_limit,f_jpg,h_630,q_90,w_630/v1495300391/production/designs/1614407_1.jpg)
 
 ## Installation
