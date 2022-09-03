@@ -11,7 +11,8 @@ std::string getEnvVar(std::string const& key){
     std::string line;
     while(std::getline(file, line)){
         if(line.find(key) != std::string::npos){
-            return line.substr(line.find("=") + 1);
+            std::string ret = line.substr(line.find("=") + 2);
+            return ret.substr(0, ret.size() - 1);
         }
     }
     return std::string();
@@ -19,6 +20,6 @@ std::string getEnvVar(std::string const& key){
 
 int main(){
     cppraw::reddit r(getEnvVar("client_id"), getEnvVar("client_secret"), getEnvVar("username"), getEnvVar("password"), getEnvVar("user_agent"));
-    cppraw::post p = r.subreddit("Mujico").get_post("wk5web");
-    std::cout << p.get_title() << std::endl;
+    while(1)
+        r.subreddit("Mujico").get_post("wk5web");
 }

@@ -1,6 +1,7 @@
 #include "CPPRAW.hpp"
 #include "subreddit.hpp"
 #include "post.hpp"
+#include "request.hpp"
 
 namespace cppraw{
     post::post(nlohmann::json data, std::string bearer, std::string user_agent){
@@ -41,21 +42,21 @@ namespace cppraw{
         }
     }
 
-    post::post(std::string id, std::string subreddit, std::string bearer, std::string user_agent){
-        // cppraw::subreddit s(subreddit, bearer, user_agent);
-        // cppraw::post p = s.get_post(id);
-        // this -> bearer = p.bearer;
-        // this -> user_agent = p.user_agent;
-        // this -> title = p.title;
-        // this -> id = p.id;
-        // this -> subreddit = p.subreddit;
-        // this -> author = p.author;
-        // this -> flair = p.flair;
-        // this -> downvotes = p.downvotes;
-        // this -> upvotes = p.upvotes;
-        // this -> type = p.type;
-        // this -> media = p.media;
-        // this -> parent_id = p.parent_id;
+    post::post(std::string subreddit, std::string id, std::string bearer, std::string user_agent){
+        cppraw::subreddit s(subreddit, bearer, user_agent);
+        cppraw::post p = s.get_post(id);
+        this -> bearer = p.bearer;
+        this -> user_agent = p.user_agent;
+        this -> title = p.title;
+        this -> id = p.id;
+        this -> subreddit = p.subreddit;
+        this -> author = p.author;
+        this -> flair = p.flair;
+        this -> downvotes = p.downvotes;
+        this -> upvotes = p.upvotes;
+        this -> type = p.type;
+        this -> media = p.media;
+        this -> parent_id = p.parent_id;
     }
 
     std::string post::get_title(){

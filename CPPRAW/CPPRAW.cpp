@@ -1,6 +1,7 @@
 #include "CPPRAW.hpp"
 #include "subreddit.hpp"
 #include "post.hpp"
+#include "request.hpp"
 
 namespace cppraw{
 
@@ -13,9 +14,14 @@ reddit::reddit(std::string client_id, std::string client_secret, std::string use
         token_file.close();
         
         if(limit < std::chrono::system_clock::now().time_since_epoch().count()){ //request a token again since the previous one is not valid
-            cpr::Response r = cpr::Post(cpr::Url("https://www.reddit.com/api/v1/access_token"),
-                                        cpr::Authentication{client_id, client_secret, cpr::AuthMode::BASIC},
-                                        cpr::Body{"grant_type=password&username=" + username + "&password=" + password});
+            cpr::Response r = cppraw::request::Post(cppraw::request::pack(
+                cpr::Bearer{""},
+                cpr::UserAgent{""},
+                cpr::Authentication{client_id, client_secret, cpr::AuthMode::BASIC},
+                cpr::Url("https://www.reddit.com/api/v1/access_token"),
+                cpr::Body{"grant_type=password&username=" + username + "&password=" + password},
+                cpr::Parameters{{}}
+            ));
             if(r.status_code != 200){
                 throw std::invalid_argument(r.text);
             }
@@ -36,5 +42,8 @@ reddit::reddit(std::string client_id, std::string client_secret, std::string use
 
     cppraw::subreddit reddit::subreddit(std::string sub){
         return cppraw::subreddit(sub, bearer, user_agent);
+    }
+    cppraw::post reddit::post(std::string subreddit, std::string id){
+        return cppraw::post(subreddit, id, bearer, user_agent);
     }
 }

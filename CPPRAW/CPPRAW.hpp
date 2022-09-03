@@ -12,8 +12,11 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
+#include <iostream>
+
 #include "subreddit.hpp"
 #include "post.hpp"
+#include "request.hpp"
 
 namespace cppraw{
 
@@ -27,6 +30,7 @@ namespace cppraw{
     public:
         reddit(std::string client_id, std::string client_secret, std::string username, std::string password, std::string user_agent);
         cppraw::subreddit subreddit(std::string sub);
+        cppraw::post post(std::string subreddit, std::string id);
     };
 }
 

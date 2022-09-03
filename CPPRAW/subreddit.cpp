@@ -1,6 +1,7 @@
 #include "CPPRAW.hpp"
 #include "subreddit.hpp"
 #include "post.hpp"
+#include "request.hpp"
 
 namespace cppraw{
 
@@ -8,6 +9,17 @@ namespace cppraw{
         this -> sub = sub;
         this -> bearer = bearer;
         this -> user_agent = user_agent;
+        cpr::Response r = cppraw::request::Get(cppraw::request::pack(
+            cpr::Bearer{bearer},
+            cpr::UserAgent{user_agent},
+            cpr::Authentication{"", "", cpr::AuthMode::BASIC},
+            cpr::Url("https://oauth.reddit.com/r/" + sub + "/about/moderators"),
+            cpr::Body{""},
+            cpr::Parameters{{}}
+        ));
+        nlohmann::json j = nlohmann::json::parse(r.text);
+        if(j["kind"] != "UserList")
+            throw std::invalid_argument("Unknown subreddit.");
     }
 
     std::vector<cppraw::post> subreddit::recent(int limit, std::string after, std::string before){
@@ -20,10 +32,16 @@ namespace cppraw{
             params = cpr::Parameters{{"limit", std::to_string(limit)}, {"after", after}};
         else
             params = cpr::Parameters{{"limit", std::to_string(limit)}};
-        cpr::Response r = cpr::Get(cpr::Url("https://oauth.reddit.com/r/" + sub + "/new"),
-                                            cpr::Bearer{bearer},
-                                            cpr::UserAgent{user_agent},
-                                            params);
+
+        cpr::Response r = cppraw::request::Get(cppraw::request::pack(
+            cpr::Bearer{bearer},
+            cpr::UserAgent{user_agent},
+            cpr::Authentication{"", "", cpr::AuthMode::BASIC},
+            cpr::Url("https://oauth.reddit.com/r/" + sub + "/new"),
+            cpr::Body{""},
+            params
+        ));
+
         if(r.status_code != 200){
             throw std::invalid_argument(r.text);
         }
@@ -36,17 +54,18 @@ namespace cppraw{
     }
 
     cppraw::post subreddit::get_post(std::string id){
-        cpr::Response r = cpr::Get(cpr::Url("https://oauth.reddit.com/r/" + sub + "/comments/" + id),
-                                            cpr::Bearer{bearer},
-                                            cpr::UserAgent{user_agent});
+        cpr::Response r = cppraw::request::Get(cppraw::request::pack(
+            cpr::Bearer{bearer},
+            cpr::UserAgent{user_agent},
+            cpr::Authentication{"", "", cpr::AuthMode::BASIC},
+            cpr::Url("https://oauth.reddit.com/r/" + sub + "/comments/" + id),
+            cpr::Body{""},
+            cpr::Parameters{{}}
+        ));
         if(r.status_code != 200){
             throw std::invalid_argument(r.text);
         }
         nlohmann::json j = nlohmann::json::parse(r.text);
-        std::fstream file;
-        file.open("test.txt", std::ios::out);
-        file << j.dump(4);
-        file.close();
         return cppraw::post(j[0]["data"]["children"][0]["data"], bearer, user_agent);
     }
 }

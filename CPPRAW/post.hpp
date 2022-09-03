@@ -26,7 +26,7 @@ namespace cppraw{
         std::string parent_id;
     public:
         post(nlohmann::json data, std::string bearer, std::string user_agent);
-        post(std::string id, std::string subreddit, std::string bearer, std::string user_agent);
+        post(std::string subreddit, std::string id, std::string bearer, std::string user_agent);
 
         std::string get_title();
         std::string get_id();
