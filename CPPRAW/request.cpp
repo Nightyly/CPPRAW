@@ -1,6 +1,7 @@
 #include "CPPRAW.hpp"
 #include "subreddit.hpp"
 #include "post.hpp"
+#include "user.hpp"
 #include "request.hpp"
 
 namespace cppraw::request{
@@ -42,7 +43,6 @@ namespace cppraw::request{
         try{
             uint64_t remaining = std::stoull(r.header["X-Ratelimit-Remaining"]);
             uint64_t reset = std::stoull(r.header["X-Ratelimit-Reset"]);
-            std::cout << "Remaining: " << remaining << ", Reset: " << reset << "\n";
             if(remaining == 0) remaining = 1;
             if(reset == 0) reset = 1;
             then = std::chrono::system_clock::now();

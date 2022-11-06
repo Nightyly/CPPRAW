@@ -4,8 +4,6 @@
 #include <chrono>
 #include <cpr/cpr.h>
 
-#include <iostream>
-
 namespace cppraw::request{
     struct pack{
         cpr::Bearer bearer{""};

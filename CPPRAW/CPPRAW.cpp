@@ -1,6 +1,7 @@
 #include "CPPRAW.hpp"
 #include "subreddit.hpp"
 #include "post.hpp"
+#include "user.hpp"
 #include "request.hpp"
 
 namespace cppraw{
@@ -38,12 +39,15 @@ reddit::reddit(std::string client_id, std::string client_secret, std::string use
             file.close();
         }
         this -> user_agent = user_agent;
-    }
+}
 
-    cppraw::subreddit reddit::subreddit(std::string sub){
-        return cppraw::subreddit(sub, bearer, user_agent);
-    }
-    cppraw::post reddit::post(std::string subreddit, std::string id){
-        return cppraw::post(subreddit, id, bearer, user_agent);
-    }
+cppraw::subreddit reddit::subreddit(std::string sub){
+    return cppraw::subreddit(sub, bearer, user_agent);
+}
+cppraw::post reddit::post(std::string subreddit, std::string id){
+    return cppraw::post(subreddit, id, bearer, user_agent);
+}
+cppraw::user reddit::user(std::string name){
+    return cppraw::user(name, bearer, user_agent);
+}
 }

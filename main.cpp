@@ -20,6 +20,5 @@ std::string getEnvVar(std::string const& key){
 
 int main(){
     cppraw::reddit r(getEnvVar("client_id"), getEnvVar("client_secret"), getEnvVar("username"), getEnvVar("password"), getEnvVar("user_agent"));
-    while(1)
-        r.subreddit("Mujico").get_post("wk5web");
+    r.user("nkrewo");
 }

@@ -8,6 +8,7 @@ namespace cppraw{
 
     class reddit;
     class post;
+    class user;
 
     class subreddit{
         std::string sub;

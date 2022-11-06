@@ -1,6 +1,7 @@
 #include "CPPRAW.hpp"
 #include "subreddit.hpp"
 #include "post.hpp"
+#include "user.hpp"
 #include "request.hpp"
 
 namespace cppraw{

@@ -8,6 +8,7 @@ namespace cppraw{
 
     class reddit;
     class subreddit;
+    class user;
 
     enum class post_type{Text, Video, Image};
     class post{
