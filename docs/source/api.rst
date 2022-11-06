@@ -350,3 +350,193 @@ Returns bool
 
     cppraw::post post = reddit.subreddit("cpp").get_post("vqy0rt");
     std::cout << post.is_crosspost() << std::endl; //prints "false"
+
+User
+=====
+
+Description
+------------
+This class allows you to interact with a redditor
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.is_employee() << std::endl; //prints "false" as of now
+
+Member functions
+-----------------
+
+get_name
+~~~~~~~~~
+Returns the username of the redditor.
+
+Parameters:
+    
+    none
+
+Returns std::string
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("dAelI_sMilE");
+    std::cout << user.get_name() << std::endl; //prints "Daeli_Smile"
+
+is_friend
+~~~~~~~~~~
+Returns whether the redditor is a friend of the bot. (https://www.reddit.com/prefs/friends/)
+
+Parameters:
+    
+    none
+
+Returns bool
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.is_friend() << std::endl; //output depends
+
+is_employee
+~~~~~~~~~~~~
+Returns whether the redditor is a reddit employee.
+
+Parameters:
+
+    none
+
+Returns bool
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.is_employee() << std::endl; //prints "false"
+
+get_karma
+~~~~~~~~~~
+Returns the total karma of the redditor.
+
+Parameters:
+
+    none
+
+Returns int64_t
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.get_karma() << std::endl; // output depends
+
+get_link_karma
+~~~~~~~~~~~~~~
+Returns the link karma of the redditor.
+
+Parameters:
+
+    none
+
+Returns int64_t
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.get_link_karma() << std::endl //output depends
+
+get_awarder_karma
+~~~~~~~~~~~~~~
+Returns the awarder karma of the redditor.
+
+Parameters:
+
+    none
+
+Returns int64_t
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.get_awarder_karma() << std::endl //output depends
+
+get_awardee_karma
+~~~~~~~~~~~~~~
+Returns the awardee karma of the redditor.
+
+Parameters:
+
+    none
+
+Returns int64_t
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.get_awardee_karma() << std::endl //output depends
+
+get_comment_karma
+~~~~~~~~~~~~~~
+Returns the comment karma of the redditor.
+
+Parameters:
+
+    none
+
+Returns int64_t
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.get_comment_karma() << std::endl //output depends
+
+has_verified_email
+~~~~~~~~~~~~~~
+Returs whether the redditor has a verified email.
+
+Parameters:
+
+    none
+
+Returns bool
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.has_verified_email() << std::endl //prints "true"
+
+get_creation_millis
+~~~~~~~~~~~~~~~~~~~
+Returns the time when the redditor's account was created in unix millis.
+
+Parameters:
+
+    none
+
+Returns uint64_t
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.get_creation_millis() << std::endl //prints "1588297297000"
+
+get_snoovatar_url
+~~~~~~~~~~~~~~~~~~
+Returns the snoovatar url.
+
+Parameters:
+
+    none
+
+Returns std::string
+
+.. code-block:: cpp
+
+    cppraw::user user = reddit.user("Daeli_Smile");
+    std::cout << user.get_snoovatar_url() << std::endl; // prints "https://i.redd.it/snoovatar/avatars/nftv2_bmZ0X2VpcDE1NToxMzdfNmFjYjhmYjgyODgwZDM5YzJiODQ0NmY4Nzc4YTE0ZDM0ZWU2Y2ZiN18xNTM4_rare_fc87c224-e736-4656-aec7-713e66987ac1.png"
+
+accepts_pms
+~~~~~~~~~~~
+Returns whether the redditor accepts pms. If the redditor requested is the bot, returns false
+
+Parameters:
+
+    none
+
+Returns bool

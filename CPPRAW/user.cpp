@@ -26,7 +26,12 @@ namespace cppraw{
         this -> verified_email = j["data"]["has_verified_email"];
         this -> created_on = j["data"]["created_utc"];
         this -> snoovatar = j["data"]["snoovatar_img"];
-        this -> accepts_pm = j["data"]["accept_pms"];
+        try{
+            this -> accepts_pm = j["data"]["accept_pms"];
+        }
+        catch(nlohmann::json_v3_11_1::detail::type_error& e){ //if the bot gets its own profile, the accpets_pms field is not found
+            this -> accepts_pm = false;
+        }
     }
 
     std::string user::get_name(){

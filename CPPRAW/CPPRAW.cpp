@@ -17,7 +17,7 @@ reddit::reddit(std::string client_id, std::string client_secret, std::string use
         if(limit < std::chrono::system_clock::now().time_since_epoch().count()){ //request a token again since the previous one is not valid
             cpr::Response r = cppraw::request::Post(cppraw::request::pack(
                 cpr::Bearer{""},
-                cpr::UserAgent{""},
+                cpr::UserAgent{user_agent},
                 cpr::Authentication{client_id, client_secret, cpr::AuthMode::BASIC},
                 cpr::Url("https://www.reddit.com/api/v1/access_token"),
                 cpr::Body{"grant_type=password&username=" + username + "&password=" + password},
