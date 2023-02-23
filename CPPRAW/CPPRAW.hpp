@@ -12,8 +12,6 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
-#include <iostream>
-
 #include "subreddit.hpp"
 #include "post.hpp"
 #include "request.hpp"

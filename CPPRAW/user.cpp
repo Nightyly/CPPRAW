@@ -7,8 +7,8 @@
 namespace cppraw{
     user::user(std::string name, std::string bearer, std::string user_agent){
         cpr::Response r = cppraw::request::Get(cppraw::request::pack(
-            bearer,
-            user_agent,
+            cpr::Bearer{bearer},
+            cpr::UserAgent{user_agent},
             cpr::Authentication{"", "", cpr::AuthMode::BASIC},
             cpr::Url("https://oauth.reddit.com/user/" + name + "/about/"),
             cpr::Body{""},
@@ -32,6 +32,9 @@ namespace cppraw{
         catch(nlohmann::json_v3_11_1::detail::type_error& e){ //if the bot gets its own profile, the accpets_pms field is not found
             this -> accepts_pm = false;
         }
+
+        this -> bearer = bearer;
+        this -> user_agent = user_agent;
     }
 
     std::string user::get_name(){
@@ -69,5 +72,15 @@ namespace cppraw{
     }
     bool user::accepts_pms(){
         return this -> accepts_pm;
+    }
+    void user::send_pm(std::string title, std::string content){
+        cpr::Response r = cppraw::request::Post(cppraw::request::pack(
+            cpr::Bearer{bearer},
+            cpr::UserAgent{user_agent},
+            cpr::Authentication{"", "", cpr::AuthMode::BASIC},
+            cpr::Url{"https://oauth.reddit.com/api/compose"},
+            cpr::Body{"to=" + get_name() + "&subject=" + title + "&text=" + content},
+            cpr::Parameters{{}}
+        ));
     }
 }
