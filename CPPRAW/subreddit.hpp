@@ -14,6 +14,7 @@ namespace cppraw{
         std::string sub;
         std::string bearer;
         std::string user_agent;
+        std::vector<cppraw::post> recent(int limit, std::string* after); // private function used to fetch more than 100 posts
     public:
         subreddit(std::string sub, std::string bearer, std::string user_agent);
         std::vector<cppraw::post> recent(int limit = 25, std::string after = "", std::string before = "");

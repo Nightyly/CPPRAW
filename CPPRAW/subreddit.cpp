@@ -23,14 +23,49 @@ namespace cppraw{
             throw std::invalid_argument("Unknown subreddit.");
     }
 
+    std::vector<cppraw::post> subreddit::recent(int limit, std::string* after){
+        std::vector<cppraw::post> v;
+        if(limit > 100){
+            v = subreddit::recent(limit - 100, after);
+            limit = 100;
+        }
+        
+        cpr::Parameters params = cpr::Parameters{{"limit", std::to_string(limit)}};
+        
+        if(*after != "") params.Add({"after", "t3_" + *after});
+
+        cpr::Response r = cppraw::request::Get(cppraw::request::pack(
+            cpr::Bearer{bearer},
+            cpr::UserAgent{user_agent},
+            cpr::Authentication{"", "", cpr::AuthMode::BASIC},
+            cpr::Url("https://oauth.reddit.com/r/" + sub + "/new"),
+            cpr::Body{""},
+            params
+        ));
+
+        if(r.status_code != 200){
+            throw std::invalid_argument(r.text);
+        }
+        nlohmann::json j = nlohmann::json::parse(r.text);
+        for(int i = 0; i != j["data"]["children"].size(); i++){
+            v.push_back(cppraw::post(j["data"]["children"][i]["data"], bearer, user_agent));
+        }
+        *after = std::string(j["data"]["after"]).substr(3);
+        return v;
+    }
+
     std::vector<cppraw::post> subreddit::recent(int limit, std::string after, std::string before){
         std::vector<cppraw::post> v;
-        if(limit > 100) limit = 100;
+        if(limit > 100){
+            v = subreddit::recent(limit - 100, &after);
+            before = "";
+            limit = 100;
+        }
         cpr::Parameters params;
         if(after == "" && before != "")
-            params = cpr::Parameters{{"limit", std::to_string(limit)}, {"before", before}};
+            params = cpr::Parameters{{"limit", std::to_string(limit)}, {"before", "t3_" + before}};
         else if(after != "" && before == "")
-            params = cpr::Parameters{{"limit", std::to_string(limit)}, {"after", after}};
+            params = cpr::Parameters{{"limit", std::to_string(limit)}, {"after", "t3_" + after}};
         else
             params = cpr::Parameters{{"limit", std::to_string(limit)}};
 
