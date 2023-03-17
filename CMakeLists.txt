@@ -18,6 +18,8 @@ endif()
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 add_executable(cppraw main.cpp CPPRAW/cppraw.cpp CPPRAW/subreddit.cpp CPPRAW/post.cpp CPPRAW/request.cpp CPPRAW/user.cpp)
 
 if(WIN32) # Install dlls in the same directory as the executable on Windows

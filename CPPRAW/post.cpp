@@ -21,7 +21,7 @@ namespace cppraw{
         try{
             this -> flair = data["link_flair_text"]; //some posts may not have a flair
         }
-        catch(nlohmann::detail::type_error){
+        catch(nlohmann::detail::type_error&){
             this -> flair = "";
         }
 

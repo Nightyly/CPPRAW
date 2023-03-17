@@ -47,7 +47,7 @@ namespace cppraw{
             throw std::invalid_argument(r.text);
         }
         nlohmann::json j = nlohmann::json::parse(r.text);
-        for(int i = 0; i != j["data"]["children"].size(); i++){
+        for(uint64_t i = 0; i != j["data"]["children"].size(); i++){
             v.push_back(cppraw::post(j["data"]["children"][i]["data"], bearer, user_agent));
         }
         *after = std::string(j["data"]["after"]).substr(3);
@@ -82,7 +82,7 @@ namespace cppraw{
             throw std::invalid_argument(r.text);
         }
         nlohmann::json j = nlohmann::json::parse(r.text);
-        for(int i = 0; i != j["data"]["children"].size(); i++){
+        for(uint64_t i = 0; i != j["data"]["children"].size(); i++){
             v.push_back(cppraw::post(j["data"]["children"][i]["data"], bearer, user_agent));
         }
 

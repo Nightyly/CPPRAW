@@ -10,7 +10,7 @@ reddit::reddit(std::string client_id, std::string client_secret, std::string use
         std::ifstream token_file;
         token_file.open(TOKEN_FILE);
         token_file >> this -> bearer;
-        uint64_t limit;
+        int64_t limit;
         token_file >> limit;
         token_file.close();
         

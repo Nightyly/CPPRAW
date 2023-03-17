@@ -49,7 +49,7 @@ namespace cppraw::request{
             timeout = (reset * 1000000000) / (remaining);
             return r;
         }
-        catch(std::invalid_argument){
+        catch(std::invalid_argument&){
             timeout = 0;
             return r;
         }
@@ -90,7 +90,7 @@ namespace cppraw::request{
             timeout = (reset * 1000000000) / (remaining);
             return r;
         }
-        catch(std::invalid_argument){
+        catch(std::invalid_argument&){
             timeout = 0;
             return r;
         }
