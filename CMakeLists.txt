@@ -16,6 +16,8 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+
 add_executable(cppraw main.cpp CPPRAW/cppraw.cpp CPPRAW/subreddit.cpp CPPRAW/post.cpp CPPRAW/request.cpp CPPRAW/user.cpp)
 
 if(WIN32) # Install dlls in the same directory as the executable on Windows
