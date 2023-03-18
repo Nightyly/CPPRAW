@@ -5,11 +5,8 @@
 #include "request.hpp"
 
 namespace cppraw{
-
-    subreddit::subreddit(std::string const& sub, std::string const& bearer, std::string const& user_agent){
-        this -> sub = sub;
-        this -> bearer = bearer;
-        this -> user_agent = user_agent;
+    subreddit::subreddit(std::string const& sub, std::string const& bearer, std::string const& user_agent)
+    : sub(sub), bearer(bearer), user_agent(user_agent){
         cpr::Response r = cppraw::request::Get(cppraw::request::pack(
             cpr::Bearer{bearer},
             cpr::UserAgent{user_agent},

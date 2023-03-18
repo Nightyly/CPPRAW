@@ -5,14 +5,8 @@
 #include "request.hpp"
 
 namespace cppraw::request{
-    pack::pack(cpr::Bearer const& bearer, cpr::UserAgent const& user_agent, cpr::Authentication const& auth, cpr::Url const& url, cpr::Body const& body, cpr::Parameters const& params){
-        this -> bearer = bearer;
-        this -> user_agent = user_agent;
-        this -> auth = auth;
-        this -> url = url;
-        this -> body = body;
-        this -> params = params;
-    }
+    pack::pack(cpr::Bearer const& bearer, cpr::UserAgent const& user_agent, cpr::Authentication const& auth, cpr::Url const& url, cpr::Body const& body, cpr::Parameters const& params) 
+    : bearer(bearer), user_agent(user_agent), auth(auth), url(url), body(body), params(params){}
 
     cpr::Response Get(pack const& p){
         static uint64_t timeout = 0;

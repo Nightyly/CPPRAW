@@ -5,10 +5,8 @@
 #include "request.hpp"
 
 namespace cppraw{
-    post::post(nlohmann::json data, std::string const& bearer, std::string const& user_agent){
-        this -> bearer = bearer;
-        this -> user_agent = user_agent;
-        
+    post::post(nlohmann::json data, std::string const& bearer, std::string const& user_agent)
+    : bearer(bearer), user_agent(user_agent){
         this -> title = data["title"];
         this -> id = std::string(data["name"]).substr(3);
         this -> subreddit = data["subreddit"];
