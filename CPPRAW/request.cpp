@@ -46,7 +46,7 @@ namespace cppraw::request{
             if(remaining == 0) remaining = 1;
             if(reset == 0) reset = 1;
             then = std::chrono::system_clock::now();
-            timeout = (reset * 1000000000) / (remaining);
+            timeout = (reset * 1000000000) / remaining;
             return r;
         }
         catch(std::invalid_argument&){
@@ -87,7 +87,7 @@ namespace cppraw::request{
             if(remaining == 0) remaining = 1;
             if(reset == 0) reset = 1;
             then = std::chrono::system_clock::now();
-            timeout = (reset * 1000000000) / (remaining);
+            timeout = (reset * 1000000000) / remaining;
             return r;
         }
         catch(std::invalid_argument&){

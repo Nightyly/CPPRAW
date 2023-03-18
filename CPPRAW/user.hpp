@@ -38,7 +38,7 @@ namespace cppraw{
         uint64_t get_creation_millis() const;
         std::string get_snoovatar_url() const;
         bool accepts_pms() const;
-        void send_pm(std::string const& title, std::string const& content);
+        void send_pm(std::string const& title, std::string const& content) const;
     };
 }
 

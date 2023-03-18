@@ -30,7 +30,7 @@ namespace cppraw{
             limit = 100;
         }
         
-        cpr::Parameters params = cpr::Parameters{{"limit", std::to_string(limit)}};
+        auto params = cpr::Parameters{{"limit", std::to_string(limit)}};
         
         if(*after != "") params.Add({"after", "t3_" + *after});
 
@@ -47,9 +47,8 @@ namespace cppraw{
             throw std::invalid_argument(r.text);
         }
         nlohmann::json j = nlohmann::json::parse(r.text);
-        for(uint64_t i = 0; i != j["data"]["children"].size(); i++){
-            v.push_back(cppraw::post(j["data"]["children"][i]["data"], bearer, user_agent));
-        }
+        std::for_each(j["data"]["children"].begin(), j["data"]["children"].end(), [&](nlohmann::json const& child){v.emplace_back(child["data"], bearer, user_agent);});
+
         *after = std::string(j["data"]["after"]).substr(3);
         return v;
     }
@@ -82,9 +81,7 @@ namespace cppraw{
             throw std::invalid_argument(r.text);
         }
         nlohmann::json j = nlohmann::json::parse(r.text);
-        for(uint64_t i = 0; i != j["data"]["children"].size(); i++){
-            v.push_back(cppraw::post(j["data"]["children"][i]["data"], bearer, user_agent));
-        }
+        std::for_each(j["data"]["children"].begin(), j["data"]["children"].end(), [&](nlohmann::json const& child){v.emplace_back(child["data"], bearer, user_agent);});
 
         return v;
     }

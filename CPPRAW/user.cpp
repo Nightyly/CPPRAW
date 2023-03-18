@@ -29,7 +29,7 @@ namespace cppraw{
         try{
             this -> accepts_pm = j["data"]["accept_pms"];
         }
-        catch(nlohmann::json_v3_11_1::detail::type_error& e){ //if the bot gets its own profile, the accpets_pms field is not found
+        catch(nlohmann::json_v3_11_1::detail::type_error&){ //if the bot gets its own profile, the accpets_pms field is not found
             this -> accepts_pm = false;
         }
 
@@ -73,7 +73,7 @@ namespace cppraw{
     bool user::accepts_pms() const{
         return this -> accepts_pm;
     }
-    void user::send_pm(std::string const& title, std::string const& content){
+    void user::send_pm(std::string const& title, std::string const& content) const{
         cpr::Response r = cppraw::request::Post(cppraw::request::pack(
             cpr::Bearer{bearer},
             cpr::UserAgent{user_agent},
