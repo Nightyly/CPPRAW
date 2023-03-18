@@ -89,7 +89,7 @@ namespace cppraw{
         return v;
     }
 
-    cppraw::post subreddit::get_post(std::string const& id){
+    cppraw::post subreddit::get_post(std::string const& id) const{
         cpr::Response r = cppraw::request::Get(cppraw::request::pack(
             cpr::Bearer{bearer},
             cpr::UserAgent{user_agent},

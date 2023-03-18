@@ -29,17 +29,17 @@ namespace cppraw{
         post(nlohmann::json data, std::string const& bearer, std::string const& user_agent);
         post(std::string const& subreddit, std::string const& id, std::string const& bearer, std::string const& user_agent);
 
-        std::string get_title();
-        std::string get_id();
-        std::string get_subreddit();
-        std::string get_author();
-        std::string get_flair();
-        std::string get_downvotes();
-        std::string get_upvotes();
-        cppraw::post_type get_type();
-        std::string get_media();
-        std::string get_parent_id();
-        bool is_crosspost();
+        std::string get_title() const;
+        std::string get_id() const;
+        std::string get_subreddit() const;
+        std::string get_author() const;
+        std::string get_flair() const;
+        std::string get_downvotes() const;
+        std::string get_upvotes() const;
+        cppraw::post_type get_type() const;
+        std::string get_media() const;
+        std::string get_parent_id() const;
+        bool is_crosspost() const;
     };
 }
 

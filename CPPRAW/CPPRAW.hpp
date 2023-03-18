@@ -29,9 +29,9 @@ namespace cppraw{
         std::string bearer;
     public:
         reddit(std::string const& client_id, std::string const& client_secret, std::string const& username, std::string const& password, std::string const& user_agent);
-        cppraw::subreddit subreddit(std::string const& sub);
-        cppraw::post post(std::string const& subreddit, std::string const& id);
-        cppraw::user user(std::string const& name);
+        cppraw::subreddit subreddit(std::string const& sub) const;
+        cppraw::post post(std::string const& subreddit, std::string const& id) const;
+        cppraw::user user(std::string const& name) const;
     };
 }
 

@@ -23,7 +23,7 @@ namespace cppraw{
         std::vector<cppraw::post> top(int limit = 25);
         std::vector<cppraw::post> controversial(int limit = 25);
         cppraw::post random();
-        cppraw::post get_post(std::string const& id);
+        cppraw::post get_post(std::string const& id) const;
     };
 
 }

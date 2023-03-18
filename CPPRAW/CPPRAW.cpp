@@ -41,13 +41,13 @@ namespace cppraw{
         this -> user_agent = user_agent;
     }
 
-    cppraw::subreddit reddit::subreddit(std::string const& sub){
+    cppraw::subreddit reddit::subreddit(std::string const& sub) const{
         return cppraw::subreddit(sub, bearer, user_agent);
     }
-    cppraw::post reddit::post(std::string const& subreddit, std::string const& id){
+    cppraw::post reddit::post(std::string const& subreddit, std::string const& id) const{
         return cppraw::post(subreddit, id, bearer, user_agent);
     }
-    cppraw::user reddit::user(std::string const& name){
+    cppraw::user reddit::user(std::string const& name) const{
         return cppraw::user(name, bearer, user_agent);
     }
 }

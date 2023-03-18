@@ -60,37 +60,37 @@ namespace cppraw{
         this -> parent_id = p.parent_id;
     }
 
-    std::string post::get_title(){
+    std::string post::get_title() const{
         return this -> title;
     }
-    std::string post::get_id(){
+    std::string post::get_id() const{
         return this -> id;
     }
-    std::string post::get_subreddit(){
+    std::string post::get_subreddit() const{
         return this -> subreddit;
     }
-    std::string post::get_author(){
+    std::string post::get_author() const{
         return this -> author;
     }
-    std::string post::get_flair(){
+    std::string post::get_flair() const{
         return this -> flair;
     }
-    std::string post::get_downvotes(){
+    std::string post::get_downvotes() const{
         return this -> downvotes;
     }
-    std::string post::get_upvotes(){
+    std::string post::get_upvotes() const{
         return this -> upvotes;
     }
-    cppraw::post_type post::get_type(){
+    cppraw::post_type post::get_type() const{
         return this -> type;
     }
-    std::string post::get_media(){
+    std::string post::get_media() const{
         return this -> media;
     }
-    std::string post::get_parent_id(){
+    std::string post::get_parent_id() const{
         return this -> parent_id;
     }
-    bool post::is_crosspost(){
+    bool post::is_crosspost() const{
         return this -> parent_id != "";
     }
 }
