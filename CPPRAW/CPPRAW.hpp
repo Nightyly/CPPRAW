@@ -28,10 +28,10 @@ namespace cppraw{
         std::string user_agent;
         std::string bearer;
     public:
-        reddit(std::string client_id, std::string client_secret, std::string username, std::string password, std::string user_agent);
-        cppraw::subreddit subreddit(std::string sub);
-        cppraw::post post(std::string subreddit, std::string id);
-        cppraw::user user(std::string name);
+        reddit(std::string const& client_id, std::string const& client_secret, std::string const& username, std::string const& password, std::string const& user_agent);
+        cppraw::subreddit subreddit(std::string const& sub);
+        cppraw::post post(std::string const& subreddit, std::string const& id);
+        cppraw::user user(std::string const& name);
     };
 }
 

@@ -25,7 +25,7 @@ namespace cppraw{
         std::string snoovatar;
         bool accepts_pm;
     public:
-        user(std::string name, std::string bearer, std::string user_agent);
+        user(std::string const& name, std::string const& bearer, std::string const& user_agent);
         std::string get_name();
         bool is_friend();
         bool is_employee();
@@ -38,7 +38,7 @@ namespace cppraw{
         uint64_t get_creation_millis();
         std::string get_snoovatar_url();
         bool accepts_pms();
-        void send_pm(std::string title, std::string content);
+        void send_pm(std::string const& title, std::string const& content);
     };
 }
 

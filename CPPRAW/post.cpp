@@ -5,7 +5,7 @@
 #include "request.hpp"
 
 namespace cppraw{
-    post::post(nlohmann::json data, std::string bearer, std::string user_agent){
+    post::post(nlohmann::json data, std::string const& bearer, std::string const& user_agent){
         this -> bearer = bearer;
         this -> user_agent = user_agent;
         
@@ -43,7 +43,7 @@ namespace cppraw{
         }
     }
 
-    post::post(std::string subreddit, std::string id, std::string bearer, std::string user_agent){
+    post::post(std::string const& subreddit, std::string const& id, std::string const& bearer, std::string const& user_agent){
         cppraw::subreddit s(subreddit, bearer, user_agent);
         cppraw::post p = s.get_post(id);
         this -> bearer = p.bearer;

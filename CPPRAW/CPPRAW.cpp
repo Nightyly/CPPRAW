@@ -6,7 +6,7 @@
 
 namespace cppraw{
 
-reddit::reddit(std::string client_id, std::string client_secret, std::string username, std::string password, std::string user_agent){
+    reddit::reddit(std::string const& client_id, std::string const& client_secret, std::string const& username, std::string const& password, std::string const& user_agent){
         std::ifstream token_file;
         token_file.open(TOKEN_FILE);
         token_file >> this -> bearer;
@@ -39,15 +39,15 @@ reddit::reddit(std::string client_id, std::string client_secret, std::string use
             file.close();
         }
         this -> user_agent = user_agent;
-}
+    }
 
-cppraw::subreddit reddit::subreddit(std::string sub){
-    return cppraw::subreddit(sub, bearer, user_agent);
-}
-cppraw::post reddit::post(std::string subreddit, std::string id){
-    return cppraw::post(subreddit, id, bearer, user_agent);
-}
-cppraw::user reddit::user(std::string name){
-    return cppraw::user(name, bearer, user_agent);
-}
+    cppraw::subreddit reddit::subreddit(std::string const& sub){
+        return cppraw::subreddit(sub, bearer, user_agent);
+    }
+    cppraw::post reddit::post(std::string const& subreddit, std::string const& id){
+        return cppraw::post(subreddit, id, bearer, user_agent);
+    }
+    cppraw::user reddit::user(std::string const& name){
+        return cppraw::user(name, bearer, user_agent);
+    }
 }

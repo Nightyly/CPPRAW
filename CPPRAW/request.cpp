@@ -5,7 +5,7 @@
 #include "request.hpp"
 
 namespace cppraw::request{
-    pack::pack(cpr::Bearer bearer, cpr::UserAgent user_agent, cpr::Authentication auth, cpr::Url url, cpr::Body body, cpr::Parameters params){
+    pack::pack(cpr::Bearer const& bearer, cpr::UserAgent const& user_agent, cpr::Authentication const& auth, cpr::Url const& url, cpr::Body const& body, cpr::Parameters const& params){
         this -> bearer = bearer;
         this -> user_agent = user_agent;
         this -> auth = auth;
@@ -14,7 +14,7 @@ namespace cppraw::request{
         this -> params = params;
     }
 
-    cpr::Response Get(pack p){
+    cpr::Response Get(pack const& p){
         static uint64_t timeout = 0;
         static std::string session = "";
         static auto then = std::chrono::system_clock::now();
@@ -55,7 +55,7 @@ namespace cppraw::request{
         }
     }
 
-    cpr::Response Post(pack p){
+    cpr::Response Post(pack const& p){
         static uint64_t timeout = 0;
         static std::string session = "";
         static auto then = std::chrono::system_clock::now();

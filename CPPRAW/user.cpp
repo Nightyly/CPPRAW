@@ -5,7 +5,7 @@
 #include "request.hpp"
 
 namespace cppraw{
-    user::user(std::string name, std::string bearer, std::string user_agent){
+    user::user(std::string const& name, std::string const& bearer, std::string const& user_agent){
         cpr::Response r = cppraw::request::Get(cppraw::request::pack(
             cpr::Bearer{bearer},
             cpr::UserAgent{user_agent},
@@ -73,7 +73,7 @@ namespace cppraw{
     bool user::accepts_pms(){
         return this -> accepts_pm;
     }
-    void user::send_pm(std::string title, std::string content){
+    void user::send_pm(std::string const& title, std::string const& content){
         cpr::Response r = cppraw::request::Post(cppraw::request::pack(
             cpr::Bearer{bearer},
             cpr::UserAgent{user_agent},

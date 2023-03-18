@@ -6,7 +6,7 @@
 
 namespace cppraw{
 
-    subreddit::subreddit(std::string sub, std::string bearer, std::string user_agent){
+    subreddit::subreddit(std::string const& sub, std::string const& bearer, std::string const& user_agent){
         this -> sub = sub;
         this -> bearer = bearer;
         this -> user_agent = user_agent;
@@ -89,7 +89,7 @@ namespace cppraw{
         return v;
     }
 
-    cppraw::post subreddit::get_post(std::string id){
+    cppraw::post subreddit::get_post(std::string const& id){
         cpr::Response r = cppraw::request::Get(cppraw::request::pack(
             cpr::Bearer{bearer},
             cpr::UserAgent{user_agent},
