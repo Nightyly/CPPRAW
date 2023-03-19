@@ -20,16 +20,21 @@ namespace cppraw{
             throw std::invalid_argument("Unknown subreddit.");
     }
 
-    std::vector<cppraw::post> subreddit::recent(int limit, std::string* after){
+    std::vector<cppraw::post> subreddit::recent(int limit, std::string* after, std::string* before){
         std::vector<cppraw::post> v;
+        std::vector<cppraw::post> prev;
         if(limit > 100){
-            v = subreddit::recent(limit - 100, after);
+            prev = subreddit::recent(limit - 100, after, before);
             limit = 100;
         }
         
         auto params = cpr::Parameters{{"limit", std::to_string(limit)}};
         
-        if(*after != "") params.Add({"after", "t3_" + *after});
+        if(*after != "")
+            params.Add({"after", "t3_" + *after});
+
+        else if(*before != "")
+            params.Add({"before", "t3_" + *before});
 
         cpr::Response r = cppraw::request::Get(cppraw::request::pack(
             cpr::Bearer{bearer},
@@ -46,24 +51,34 @@ namespace cppraw{
         nlohmann::json j = nlohmann::json::parse(r.text);
         std::for_each(j["data"]["children"].begin(), j["data"]["children"].end(), [&](nlohmann::json const& child){v.emplace_back(child["data"], bearer, user_agent);});
 
-        *after = std::string(j["data"]["after"]).substr(3);
+        // Because of the way pagination works, if we used the 'before' parameter, we have to insert the previous vector at the end of the new vector
+        if(*before != "")
+            v.insert(v.end(), prev.begin(), prev.end());
+        else
+            v.insert(v.begin(), prev.begin(), prev.end());
+
+        if(*before != "")
+            *before = v.front().get_id();
+        else
+            *after = v.back().get_id();
+
         return v;
     }
 
     std::vector<cppraw::post> subreddit::recent(int limit, std::string after, std::string before){
+        if(after != "" && before != "") throw std::invalid_argument("After and before cannot be set at the same time.\nAfter: " + after + "\nBefore: " + before);
         std::vector<cppraw::post> v;
+        std::vector<cppraw::post> prev;
         if(limit > 100){
-            v = subreddit::recent(limit - 100, &after);
-            before = "";
+            prev = subreddit::recent(limit - 100, &after, &before);
             limit = 100;
         }
-        cpr::Parameters params;
-        if(after == "" && before != "")
-            params = cpr::Parameters{{"limit", std::to_string(limit)}, {"before", "t3_" + before}};
-        else if(after != "" && before == "")
-            params = cpr::Parameters{{"limit", std::to_string(limit)}, {"after", "t3_" + after}};
-        else
-            params = cpr::Parameters{{"limit", std::to_string(limit)}};
+
+        auto params = cpr::Parameters{{"limit", std::to_string(limit)}};
+        if(before != "")
+            params.Add({"before", "t3_" + before});
+        else if(after != "")
+            params.Add({"after", "t3_" + after});
 
         cpr::Response r = cppraw::request::Get(cppraw::request::pack(
             cpr::Bearer{bearer},
@@ -80,6 +95,12 @@ namespace cppraw{
         nlohmann::json j = nlohmann::json::parse(r.text);
         std::for_each(j["data"]["children"].begin(), j["data"]["children"].end(), [&](nlohmann::json const& child){v.emplace_back(child["data"], bearer, user_agent);});
 
+        // Because of the way pagination works, if we used the 'before' parameter, we have to insert the previous vector at the end of the new vector
+        if(before != "")
+            v.insert(v.end(), prev.begin(), prev.end());
+        else
+            v.insert(v.begin(), prev.begin(), prev.end());
+        
         return v;
     }
 

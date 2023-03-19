@@ -20,7 +20,7 @@ std::string getEnvVar(std::string const& key){
 
 int main(){
     cppraw::reddit r(getEnvVar("client_id"), getEnvVar("client_secret"), getEnvVar("username"), getEnvVar("password"), getEnvVar("user_agent"));
-    for(auto i: r.subreddit("ElCalifato").recent(105)){
-        std::cout << i.get_title() << std::endl;
+    for(auto i: r.subreddit("ElCalifato").recent(105, "", "11l72qi")){
+        std::cout << i.get_title() << " - " << i.get_id() << std::endl;
     }
 }
