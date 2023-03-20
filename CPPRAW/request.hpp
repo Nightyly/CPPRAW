@@ -6,13 +6,17 @@
 
 namespace cppraw::request{
     struct pack{
-        cpr::Bearer bearer{""};
-        cpr::UserAgent user_agent{""};
-        cpr::Authentication auth{"", "", cpr::AuthMode::BASIC};
-        cpr::Url url{""};
-        cpr::Body body{""};
-        cpr::Parameters params{{}};
-        pack(cpr::Bearer const& bearer, cpr::UserAgent const& user_agent, cpr::Authentication const& auth, cpr::Url const& url, cpr::Body const& body, cpr::Parameters const& params);
+        cpr::Bearer _bearer{""};
+        cpr::UserAgent _user_agent{""};
+        cpr::Authentication _auth{"", "", cpr::AuthMode::BASIC};
+        cpr::Url _url{""};
+        cpr::Parameters _params{{}};
+        pack();
+        pack& bearer(cpr::Bearer const& bearer);
+        pack& user_agent(cpr::UserAgent const& user_agent);
+        pack& auth(cpr::Authentication const& auth);
+        pack& url(cpr::Url const& url);
+        pack& params(cpr::Parameters const& params);
     };
 
     cpr::Response Get(pack const& p);

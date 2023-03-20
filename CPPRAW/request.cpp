@@ -5,8 +5,27 @@
 #include "request.hpp"
 
 namespace cppraw::request{
-    pack::pack(cpr::Bearer const& bearer, cpr::UserAgent const& user_agent, cpr::Authentication const& auth, cpr::Url const& url, cpr::Body const& body, cpr::Parameters const& params) 
-    : bearer(bearer), user_agent(user_agent), auth(auth), url(url), body(body), params(params){}
+    pack::pack() = default;
+    pack& pack::bearer(cpr::Bearer const& set){
+        this -> _bearer = set;
+        return *this;
+    }
+    pack& pack::user_agent(cpr::UserAgent const& set){
+        this -> _user_agent = set;
+        return *this;
+    }
+    pack& pack::auth(cpr::Authentication const& set){
+        this -> _auth = set;
+        return *this;
+    }
+    pack& pack::url(cpr::Url const& set){
+        this -> _url = set;
+        return *this;
+    }
+    pack& pack::params(cpr::Parameters const& set){
+        this -> _params = set;
+        return *this;
+    }
 
     cpr::Response Get(pack const& p){
         static uint64_t timeout = 0;
@@ -14,18 +33,16 @@ namespace cppraw::request{
         static auto then = std::chrono::system_clock::now();
 
         cpr::Session s;
-        if(cpr::Url{p.url} != cpr::Url{""})
-            s.SetUrl(cpr::Url{p.url});
-        if(std::string(p.auth.GetAuthString()) != ":")
-            s.SetAuth(p.auth);
-        if(std::string(p.bearer.GetToken()) != std::string(cpr::Bearer{""}.GetToken()))
-            s.SetBearer(p.bearer);
-        if(p.user_agent != cpr::UserAgent{""})
-            s.SetUserAgent(p.user_agent);
-        if(p.params.GetContent(cpr::CurlHolder()) != cpr::Parameters{{}}.GetContent(cpr::CurlHolder()))
-            s.SetParameters(p.params);
-        if(p.body != cpr::Body{""})
-            s.SetBody(p.body);
+        if(cpr::Url{p._url} != cpr::Url{""})
+            s.SetUrl(cpr::Url{p._url});
+        if(std::string(p._auth.GetAuthString()) != ":")
+            s.SetAuth(p._auth);
+        if(std::string(p._bearer.GetToken()) != std::string(cpr::Bearer{""}.GetToken()))
+            s.SetBearer(p._bearer);
+        if(p._user_agent != cpr::UserAgent{""})
+            s.SetUserAgent(p._user_agent);
+        if(p._params.GetContent(cpr::CurlHolder()) != cpr::Parameters{{}}.GetContent(cpr::CurlHolder()))
+            s.SetParameters(p._params);
 
         cpr::Response r = s.Get();
 
@@ -54,19 +71,17 @@ namespace cppraw::request{
         static std::string session = "";
         static auto then = std::chrono::system_clock::now();
 
-        cpr::Session s;
-        if(cpr::Url{p.url} != cpr::Url{""})
-            s.SetUrl(cpr::Url{p.url});
-        if(std::string(p.auth.GetAuthString()) != ":")
-            s.SetAuth(p.auth);
-        if(std::string(p.bearer.GetToken()) != std::string(cpr::Bearer{""}.GetToken()))
-            s.SetBearer(p.bearer);
-        if(p.user_agent != cpr::UserAgent{""})
-            s.SetUserAgent(p.user_agent);
-        if(p.params.GetContent(cpr::CurlHolder()) != cpr::Parameters{{}}.GetContent(cpr::CurlHolder()))
-            s.SetParameters(p.params);
-        if(p.body != cpr::Body{""})
-            s.SetBody(p.body);
+         cpr::Session s;
+        if(cpr::Url{p._url} != cpr::Url{""})
+            s.SetUrl(cpr::Url{p._url});
+        if(std::string(p._auth.GetAuthString()) != ":")
+            s.SetAuth(p._auth);
+        if(std::string(p._bearer.GetToken()) != std::string(cpr::Bearer{""}.GetToken()))
+            s.SetBearer(p._bearer);
+        if(p._user_agent != cpr::UserAgent{""})
+            s.SetUserAgent(p._user_agent);
+        if(p._params.GetContent(cpr::CurlHolder()) != cpr::Parameters{{}}.GetContent(cpr::CurlHolder()))
+            s.SetParameters(p._params);
 
         cpr::Response r = s.Post();
 

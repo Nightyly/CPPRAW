@@ -15,14 +15,12 @@ namespace cppraw{
         token_file.close();
         
         if(limit < std::chrono::system_clock::now().time_since_epoch().count()){ //request a token again since the previous one is not valid
-            cpr::Response r = cppraw::request::Post(cppraw::request::pack(
-                cpr::Bearer{""},
-                cpr::UserAgent{user_agent},
-                cpr::Authentication{client_id, client_secret, cpr::AuthMode::BASIC},
-                cpr::Url("https://www.reddit.com/api/v1/access_token"),
-                cpr::Body{"grant_type=password&username=" + username + "&password=" + password},
-                cpr::Parameters{{}}
-            ));
+            cpr::Response r = cppraw::request::Post(cppraw::request::pack()
+                .user_agent(user_agent)
+                .auth(cpr::Authentication{client_id, client_secret, cpr::AuthMode::BASIC})
+                .url("https://www.reddit.com/api/v1/access_token")
+                .params({{"grant_type", "password"}, {"username", username}, {"password", password}})
+            );
             if(r.status_code != 200){
                 throw std::invalid_argument(r.text);
             }

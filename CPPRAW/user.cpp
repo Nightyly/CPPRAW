@@ -6,14 +6,11 @@
 
 namespace cppraw{
     user::user(std::string const& name, std::string const& bearer, std::string const& user_agent){
-        cpr::Response r = cppraw::request::Get(cppraw::request::pack(
-            cpr::Bearer{bearer},
-            cpr::UserAgent{user_agent},
-            cpr::Authentication{"", "", cpr::AuthMode::BASIC},
-            cpr::Url("https://oauth.reddit.com/user/" + name + "/about/"),
-            cpr::Body{""},
-            cpr::Parameters{{}}
-        ));
+        cpr::Response r = cppraw::request::Get(cppraw::request::pack()
+            .bearer(bearer)
+            .user_agent(user_agent)
+            .url("https://oauth.reddit.com/user/" + name + "/about/")
+        );
         nlohmann::json j = nlohmann::json::parse(r.text);
         this -> name = j["data"]["name"];
         this -> mFriend = j["data"]["is_friend"];
@@ -74,13 +71,13 @@ namespace cppraw{
         return this -> accepts_pm;
     }
     void user::send_pm(std::string const& title, std::string const& content) const{
-        cpr::Response r = cppraw::request::Post(cppraw::request::pack(
-            cpr::Bearer{bearer},
-            cpr::UserAgent{user_agent},
-            cpr::Authentication{"", "", cpr::AuthMode::BASIC},
-            cpr::Url{"https://oauth.reddit.com/api/compose"},
-            cpr::Body{"to=" + get_name() + "&subject=" + title + "&text=" + content},
-            cpr::Parameters{{}}
-        ));
+        cpr::Response r = cppraw::request::Post(cppraw::request::pack()
+            .bearer(bearer)
+            .user_agent(user_agent)
+            .url("https://oauth.reddit.com/api/compose")
+            .params({{"to", get_name()}, {"subject", title}, {"text", content}})
+        );
+        if(r.status_code != 200)
+            throw std::invalid_argument(r.text);
     }
 }
