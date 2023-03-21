@@ -8,36 +8,44 @@ namespace cppraw{
     post::post(nlohmann::json data, std::string const& bearer, std::string const& user_agent)
     : bearer(bearer), user_agent(user_agent){
         this -> title = data["title"];
-        this -> id = std::string(data["name"]).substr(3);
+        this -> id = data["id"];
         this -> subreddit = data["subreddit"];
         this -> author = data["author"];
-        uint64_t aux = data["downs"];
-        this -> downvotes = std::to_string(aux);
-        aux = data["ups"];
-        this -> upvotes = std::to_string(aux);
-
         try{
             this -> flair = data["link_flair_text"]; //some posts may not have a flair
         }
         catch(nlohmann::detail::type_error&){
             this -> flair = "";
         }
+        this -> downvotes = std::to_string(int64_t(data["downs"]));
+        this -> upvotes = std::to_string(int64_t(data["ups"]));
 
-        if(data["post_hint"] == "hosted:video"){
-            this -> type = cppraw::post_type::Video;
+        if(data.contains("crosspost_parent")) data = data["crosspost_parent_list"][0];// if this post is a crosspost, the data relevant to its
+                                                                                      // contents are in "crosspost_parent_list"
+        if(data.contains("post_hint")){
+            if(data["post_hint"] == "hosted:video")
+                this -> type = cppraw::post_type::Video;
+            else
+                this -> type = cppraw::post_type::Image;
+            this -> media = data["url"];
+            this -> body = data["selftext"];
         }
-        else if(data["post_hint"] == "image"){
-            this -> type = cppraw::post_type::Image;
-        }
-        else if(data["post_hint"] == "link"){
-            if(data.contains("crosspost_parent_list")){
-                this -> type = cppraw::post(data["crosspost_parent_list"][0], bearer, user_agent).get_type();
-                this -> media = cppraw::post(data["crosspost_parent_list"][0], bearer, user_agent).get_media();
-                this -> parent_id = cppraw::post(data["crosspost_parent_list"][0], bearer, user_agent).get_id();
+        else{
+            if(data.contains("gallery_data")){
+                this -> type = cppraw::post_type::Gallery;
+                std::for_each(data["gallery_data"]["items"].begin(), data["gallery_data"]["items"].end(), [&](auto const& child){
+                    std::string media_id = child["media_id"];
+                    std::string mime_type = data["media_metadata"][media_id]["m"];
+                    std::string url = "https://" + mime_type.substr(0, 1) + ".redd.it/";
+                    mime_type = mime_type.substr(mime_type.find('/') + 1);
+                    if(child.contains("caption"))
+                        this -> gallery.emplace_back(url + media_id + "." + mime_type, child["caption"]);
+                    else
+                        this -> gallery.emplace_back(url + media_id + "." + mime_type, "");
+                });
             }
-            else{
-                this -> type = cppraw::post_type::Text;
-            }
+            this -> type = cppraw::post_type::Text;
+            this -> body = data["selftext"];
         }
     }
 
@@ -55,7 +63,10 @@ namespace cppraw{
         this -> upvotes = p.upvotes;
         this -> type = p.type;
         this -> media = p.media;
+        this -> gallery = p.gallery;
         this -> parent_id = p.parent_id;
+        this -> parent_subreddit = p.parent_subreddit;
+        this -> body = p.body;
     }
 
     std::string post::get_title() const{
@@ -85,8 +96,17 @@ namespace cppraw{
     std::string post::get_media() const{
         return this -> media;
     }
+    std::vector<std::pair<std::string, std::string>> post::get_gallery() const{
+        return this -> gallery;
+    }
     std::string post::get_parent_id() const{
         return this -> parent_id;
+    }
+    std::string post::get_parent_subreddit() const{
+        return this -> parent_subreddit;
+    }
+    std::string post::get_body() const{
+        return this -> body;
     }
     bool post::is_crosspost() const{
         return this -> parent_id != "";
