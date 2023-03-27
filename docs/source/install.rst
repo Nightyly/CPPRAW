@@ -2,7 +2,7 @@ Installation
 ============
 Using cmake
 ------------
-Installation using cmake is simple, you just have to compile CPPRAW's source and fetch both nlohmann/json and libcpr using FetchContent.
+Installation using cmake is simple, you just have to grab CPPRAW's source and headers and fetch both nlohmann/json and libcpr using FetchContent.
 Add this to your CMakeLists.txt:
 
 .. code-block:: cmake
@@ -10,12 +10,16 @@ Add this to your CMakeLists.txt:
     cmake_minimum_required(VERSION 3.20)
     project(your_project)
 
-    add_executable(your_project main.cpp CPPRAW/cppraw.cpp CPPRAW/subreddit.cpp CPPRAW/post.cpp)
+    set(CMAKE_CXX_STANDARD 17)
+
+    set(CPPRAW_SOURCE_FILES CPPRAW/CPPRAW.cpp CPPRAW/subreddit.cpp CPPRAW/post.cpp CPPRAW/request.cpp CPPRAW/user.cpp)
+
+    add_executable(your_project main.cpp ${CPPRAW_SOURCE_FILES})
 
     include(FetchContent)
 
     FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
-                             GIT_TAG 871ed52d350214a034f6ef8a3b8f51c5ce1bd400)
+                             GIT_TAG 0817715923c9705e68994eb52ef9df3f6845beba) # The commit hash for 1.10.x. Replace with the latest from: https://github.com/libcpr/cpr/releases
     FetchContent_MakeAvailable(cpr)
     FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.1/json.tar.xz)
     FetchContent_MakeAvailable(json)

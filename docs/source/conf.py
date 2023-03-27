@@ -4,9 +4,9 @@
 
 project = 'CPPRAW'
 author = 'Nightyly'
-copyright = '2022 Nightyly'
+copyright = '2023 Nightyly'
 
-version = '0.0.1'
+version = '0.0.4'
 
 # -- General configuration
 
