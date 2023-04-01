@@ -11,6 +11,10 @@ namespace cppraw{
             .user_agent(user_agent)
             .url("https://oauth.reddit.com/user/" + name + "/about/")
         );
+
+        if(r.status_code != 200)
+            throw std::invalid_argument(r.text);
+
         nlohmann::json j = nlohmann::json::parse(r.text);
         this -> name = j["data"]["name"];
         this -> mFriend = j["data"]["is_friend"];
