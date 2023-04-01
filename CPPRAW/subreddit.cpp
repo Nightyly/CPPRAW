@@ -12,9 +12,11 @@ namespace cppraw{
             .user_agent(user_agent)
             .url("https://oauth.reddit.com/r/" + sub + "/about/moderators")
         );
+        if(r.status_code != 200)
+            throw std::invalid_argument(r.text);
         nlohmann::json j = nlohmann::json::parse(r.text);
         if(j["kind"] != "UserList")
-            throw std::invalid_argument("Unknown subreddit.");
+            throw std::invalid_argument("Unknown subreddit \"" + sub + "\".");
     }
 
     std::vector<cppraw::post> subreddit::recent(int limit, std::string* after, std::string* before){
