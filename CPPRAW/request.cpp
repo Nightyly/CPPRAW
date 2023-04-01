@@ -47,10 +47,6 @@ namespace cppraw::request{
         cpr::Response r = s.Get();
 
         std::this_thread::sleep_until(then + std::chrono::nanoseconds(timeout));
-        for(const auto &cookie : r.cookies) {
-            if(cookie.GetName() != "session_tracker") continue;
-            session = cookie.GetValue();
-        }
         try{
             uint64_t remaining = std::stoull(r.header["X-Ratelimit-Remaining"]);
             uint64_t reset = std::stoull(r.header["X-Ratelimit-Reset"]);
@@ -86,10 +82,6 @@ namespace cppraw::request{
         cpr::Response r = s.Post();
 
         std::this_thread::sleep_until(then + std::chrono::nanoseconds(timeout));
-        for(const auto &cookie : r.cookies) {
-            if(cookie.GetName() != "session_tracker") continue;
-            session = cookie.GetValue();
-        }
         try{
             uint64_t remaining = std::stoull(r.header["X-Ratelimit-Remaining"]);
             uint64_t reset = std::stoull(r.header["X-Ratelimit-Reset"]);
