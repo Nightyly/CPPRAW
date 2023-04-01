@@ -29,7 +29,9 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug") # For use with SonarLint
   set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 endif()
 
-add_executable(cppraw main.cpp CPPRAW/cppraw.cpp CPPRAW/subreddit.cpp CPPRAW/post.cpp CPPRAW/request.cpp CPPRAW/user.cpp)
+set(CPPRAW_SOURCE_FILES CPPRAW/CPPRAW.cpp CPPRAW/subreddit.cpp CPPRAW/post.cpp CPPRAW/request.cpp CPPRAW/user.cpp)
+
+add_executable(cppraw main.cpp ${CPPRAW_SOURCE_FILES})
 
 if(WIN32) # Install dlls in the same directory as the executable on Windows
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
