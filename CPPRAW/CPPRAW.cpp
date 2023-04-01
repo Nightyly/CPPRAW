@@ -21,6 +21,14 @@ namespace cppraw{
                 .url("https://www.reddit.com/api/v1/access_token")
                 .params({{"grant_type", "password"}, {"username", username}, {"password", password}})
             );
+            if(r.status_code == 429){
+                throw std::invalid_argument(r.text + "\nMaybe your credentials are bad?"
+                                                   + "\nclient_id: " + client_id
+                                                   + "\nclient_secret: " + client_secret
+                                                   + "\nusername: " + username
+                                                   + "\npassword: " + password
+                                                   + "\nuser_agent" + user_agent);
+            }
             if(r.status_code != 200){
                 throw std::invalid_argument(r.text);
             }
