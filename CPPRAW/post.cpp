@@ -11,12 +11,8 @@ namespace cppraw{
         this -> id = data["id"];
         this -> subreddit = data["subreddit"];
         this -> author = data["author"];
-        try{
-            this -> flair = data["link_flair_text"]; //some posts may not have a flair
-        }
-        catch(nlohmann::detail::type_error&){
-            this -> flair = "";
-        }
+        if(data.contains("link_flair_text"))
+            this -> flair = data["link_flair_text"];
         this -> downvotes = std::to_string(int64_t(data["downs"]));
         this -> upvotes = std::to_string(int64_t(data["ups"]));
 
@@ -31,6 +27,7 @@ namespace cppraw{
             this -> body = data["selftext"];
         }
         else{
+            this -> body = data["selftext"];
             if(data.contains("gallery_data")){
                 this -> type = cppraw::post_type::Gallery;
                 std::for_each(data["gallery_data"]["items"].begin(), data["gallery_data"]["items"].end(), [&](auto const& child){
@@ -44,8 +41,8 @@ namespace cppraw{
                         this -> gallery.emplace_back(url + media_id + "." + mime_type, "");
                 });
             }
-            this -> type = cppraw::post_type::Text;
-            this -> body = data["selftext"];
+            else
+                this -> type = cppraw::post_type::Text;
         }
     }
 

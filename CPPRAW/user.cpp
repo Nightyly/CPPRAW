@@ -17,7 +17,7 @@ namespace cppraw{
 
         nlohmann::json j = nlohmann::json::parse(r.text);
         this -> name = j["data"]["name"];
-        this -> mFriend = j["data"]["is_friend"];
+        this -> friendship = j["data"]["is_friend"];
         this -> employee = j["data"]["is_employee"];
         this -> karma = j["data"]["total_karma"];
         this -> link_karma = j["data"]["link_karma"];
@@ -27,13 +27,8 @@ namespace cppraw{
         this -> verified_email = j["data"]["has_verified_email"];
         this -> created_on = j["data"]["created_utc"];
         this -> snoovatar = j["data"]["snoovatar_img"];
-        try{
+        if(j["data"].contains("accept_pms"))
             this -> accepts_pm = j["data"]["accept_pms"];
-        }
-        catch(nlohmann::json_v3_11_1::detail::type_error&){ //if the bot gets its own profile, the accpets_pms field is not found
-            this -> accepts_pm = false;
-        }
-
         this -> bearer = bearer;
         this -> user_agent = user_agent;
     }
@@ -42,7 +37,7 @@ namespace cppraw{
         return this -> name;
     }
     bool user::is_friend() const{
-        return this -> mFriend;
+        return this -> friendship;
     }
     bool user::is_employee() const{
         return this -> employee;

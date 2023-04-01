@@ -13,7 +13,7 @@ namespace cppraw{
         std::string user_agent;
         
         std::string name;
-        bool mFriend;
+        bool friendship;
         bool employee;
         int64_t karma;
         int64_t link_karma;
