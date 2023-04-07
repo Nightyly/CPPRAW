@@ -11,7 +11,7 @@ namespace cppraw{
         this -> id = data["id"];
         this -> subreddit = data["subreddit"];
         this -> author = data["author"];
-        if(data.contains("link_flair_text"))
+        if(!data["link_flair_text"].is_null())
             this -> flair = data["link_flair_text"];
         this -> downvotes = std::to_string(int64_t(data["downs"]));
         this -> upvotes = std::to_string(int64_t(data["ups"]));
