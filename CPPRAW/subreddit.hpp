@@ -14,15 +14,15 @@ namespace cppraw{
         std::string sub;
         std::string bearer;
         std::string user_agent;
-        std::vector<cppraw::post> recent(int limit, std::string* after, std::string* before); // private function used to fetch more than 100 posts
+        std::vector<cppraw::post> get(std::string const& what, int limit, std::string* after, std::string* before);
     public:
         subreddit(std::string const& sub, std::string const& bearer, std::string const& user_agent);
-        std::vector<cppraw::post> recent(int limit = 25, std::string after = "", std::string before = "");
-        std::vector<cppraw::post> hot(int limit = 25);
-        std::vector<cppraw::post> rising(int limit = 25);
-        std::vector<cppraw::post> top(int limit = 25);
-        std::vector<cppraw::post> controversial(int limit = 25);
-        cppraw::post random();
+        std::vector<cppraw::post> recent(int limit = 25, std::string const& after = "", std::string const& before = "");
+        std::vector<cppraw::post> hot(int limit = 25, std::string const& after = "", std::string const& before = "");
+        std::vector<cppraw::post> rising(int limit = 25, std::string const& after = "", std::string const& before = "");
+        std::vector<cppraw::post> top(int limit = 25, std::string const& after = "", std::string const& before = "");
+        std::vector<cppraw::post> controversial(int limit = 25, std::string const& after = "", std::string const& before = "");
+        std::vector<cppraw::post> random() const;
         cppraw::post get_post(std::string const& id) const;
     };
 

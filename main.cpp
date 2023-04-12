@@ -20,8 +20,6 @@ std::string getEnvVar(std::string const& key){
 
 int main(){
     cppraw::reddit r(getEnvVar("client_id"), getEnvVar("client_secret"), getEnvVar("username"), getEnvVar("password"), getEnvVar("user_agent"));
-    auto v = r.subreddit("196").get_post("11wkyde");
-    for(auto i: v.get_gallery()){
-        std::cout << i.first << " - " << i.second << "\n";
-    }
+    for(auto const& v: r.subreddit("196").random())
+        std::cout << v.get_title() << std::endl;
 }

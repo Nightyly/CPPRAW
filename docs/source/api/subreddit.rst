@@ -155,22 +155,23 @@ the reddit API.
 
 random
 ~~~~~~
-Gets a random post from the subreddit.
+Gets random posts from the subreddit.
 
 .. admonition::
     Parameters
     
     None
 
-Returns :guilabel:`cppraw::post` object
+Returns :guilabel:`std::vector<cppraw::post>`
 
 Throws :guilabel:`std::invalid_argument` if there was an error while requesting the data to
 the reddit API.
 
 .. code-block:: cpp
 
-    cppraw::post post = reddit.subreddit("cpp").random();
-    std::cout << post.get_title() << std::endl; //prints the title of a random post in the cpp subreddit
+    std::vector<cppraw::post> posts = reddit.subreddit("cpp").random();
+    for(auto i: posts)
+        std::cout << i.get_title() << std::endl; //prints the title of random posts in the cpp subreddit
 
 -----------
 
